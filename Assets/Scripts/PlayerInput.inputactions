@@ -6,27 +6,25 @@
             "id": "dd999ecf-1f49-479a-a62c-f9fcb1370e9d",
             "actions": [
                 {
-                    "name": "MoveDirect",
-                    "type": "Button",
+                    "name": "MoveDirection",
+                    "type": "Value",
                     "id": "e545cdd9-c00e-4b0a-b5b2-ae15409c6c2a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Movement",
+                    "type": "Value",
+                    "id": "4e94ae2c-346d-4053-99ba-bcec79dc8573",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "3c9b95fb-8cb5-4f38-ad38-7732c0ce7d8b",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveDirect",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "1D Axis",
                     "id": "25ef7d17-68fe-4b4d-8de6-cc3673a24c50",
@@ -34,7 +32,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MoveDirect",
+                    "action": "MoveDirection",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -45,7 +43,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MoveDirect",
+                    "action": "MoveDirection",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -56,7 +54,62 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MoveDirect",
+                    "action": "MoveDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Dir",
+                    "id": "d1c16cfe-cab0-45b7-b3e6-cd50bbacaf3d",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "7b9ac8df-542d-4694-ac14-0db4acd143c0",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "4a0fccbb-59f0-4918-928a-8b69b921fdc4",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "63d81096-9f33-43cc-9921-b96578854fe3",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "6d06bbfb-7877-4b00-82e4-03c2f7044323",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

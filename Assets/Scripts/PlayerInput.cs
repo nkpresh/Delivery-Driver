@@ -28,27 +28,25 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             ""id"": ""dd999ecf-1f49-479a-a62c-f9fcb1370e9d"",
             ""actions"": [
                 {
-                    ""name"": ""MoveDirect"",
-                    ""type"": ""Button"",
+                    ""name"": ""MoveDirection"",
+                    ""type"": ""Value"",
                     ""id"": ""e545cdd9-c00e-4b0a-b5b2-ae15409c6c2a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""4e94ae2c-346d-4053-99ba-bcec79dc8573"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""3c9b95fb-8cb5-4f38-ad38-7732c0ce7d8b"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveDirect"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""1D Axis"",
                     ""id"": ""25ef7d17-68fe-4b4d-8de6-cc3673a24c50"",
@@ -56,7 +54,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveDirect"",
+                    ""action"": ""MoveDirection"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -67,7 +65,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveDirect"",
+                    ""action"": ""MoveDirection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -78,7 +76,62 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveDirect"",
+                    ""action"": ""MoveDirection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Dir"",
+                    ""id"": ""d1c16cfe-cab0-45b7-b3e6-cd50bbacaf3d"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""7b9ac8df-542d-4694-ac14-0db4acd143c0"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""4a0fccbb-59f0-4918-928a-8b69b921fdc4"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""63d81096-9f33-43cc-9921-b96578854fe3"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""6d06bbfb-7877-4b00-82e4-03c2f7044323"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -89,7 +142,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
 }");
         // Driving
         m_Driving = asset.FindActionMap("Driving", throwIfNotFound: true);
-        m_Driving_MoveDirect = m_Driving.FindAction("MoveDirect", throwIfNotFound: true);
+        m_Driving_MoveDirection = m_Driving.FindAction("MoveDirection", throwIfNotFound: true);
+        m_Driving_Movement = m_Driving.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -151,12 +205,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     // Driving
     private readonly InputActionMap m_Driving;
     private List<IDrivingActions> m_DrivingActionsCallbackInterfaces = new List<IDrivingActions>();
-    private readonly InputAction m_Driving_MoveDirect;
+    private readonly InputAction m_Driving_MoveDirection;
+    private readonly InputAction m_Driving_Movement;
     public struct DrivingActions
     {
         private @PlayerInput m_Wrapper;
         public DrivingActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @MoveDirect => m_Wrapper.m_Driving_MoveDirect;
+        public InputAction @MoveDirection => m_Wrapper.m_Driving_MoveDirection;
+        public InputAction @Movement => m_Wrapper.m_Driving_Movement;
         public InputActionMap Get() { return m_Wrapper.m_Driving; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -166,16 +222,22 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_DrivingActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_DrivingActionsCallbackInterfaces.Add(instance);
-            @MoveDirect.started += instance.OnMoveDirect;
-            @MoveDirect.performed += instance.OnMoveDirect;
-            @MoveDirect.canceled += instance.OnMoveDirect;
+            @MoveDirection.started += instance.OnMoveDirection;
+            @MoveDirection.performed += instance.OnMoveDirection;
+            @MoveDirection.canceled += instance.OnMoveDirection;
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
         }
 
         private void UnregisterCallbacks(IDrivingActions instance)
         {
-            @MoveDirect.started -= instance.OnMoveDirect;
-            @MoveDirect.performed -= instance.OnMoveDirect;
-            @MoveDirect.canceled -= instance.OnMoveDirect;
+            @MoveDirection.started -= instance.OnMoveDirection;
+            @MoveDirection.performed -= instance.OnMoveDirection;
+            @MoveDirection.canceled -= instance.OnMoveDirection;
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
         }
 
         public void RemoveCallbacks(IDrivingActions instance)
@@ -195,6 +257,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     public DrivingActions @Driving => new DrivingActions(this);
     public interface IDrivingActions
     {
-        void OnMoveDirect(InputAction.CallbackContext context);
+        void OnMoveDirection(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
     }
 }
