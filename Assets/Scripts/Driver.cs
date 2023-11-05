@@ -26,7 +26,7 @@ public class Driver : MonoBehaviour
     int packageAmount = 0;
     void Start()
     {
-        print(moveSpeed);
+        // print(moveSpeed);
     }
 
     void Update()
