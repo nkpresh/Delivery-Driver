@@ -4,55 +4,98 @@ using UnityEngine;
 
 public class Driver : MonoBehaviour
 {
+    [SerializeField]
+    Color hasPackageColor = Color.green;
+    [SerializeField]
+    Color deliveredPackageColor = Color.white;
+    [SerializeField]
+    float destroyTime;
 
     [SerializeField]
-    float boostSpeed = 25;
-    [SerializeField]
-    float slowSpeed = 20;
-    [SerializeField]
+    SpriteRenderer spriteRenderer;
+
+    // bool packagePickedup = false;
     float steerSpeed = 1;
     [SerializeField]
     float moveSpeed = 0.01f;
 
     float carHealth = 100f;
     float carNitro = 0;
+
+    public int packageCapacity;
+    int packageAmount = 0;
     void Start()
     {
-
+        print(moveSpeed);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float steerAmount = Input.GetAxis("Horizontal") * steerSpeed * Time.deltaTime;
-        float moveAmount = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+        // if (moveSpeed != 0)
+        //     GetComponent<Rigidbody2D>().velocity = Vector2.up * moveSpeed * Time.deltaTime;
 
-
-        transform.Rotate(0, 0, -steerAmount);
-        transform.Translate(0, moveAmount, 0);
+        float xAxis = Input.GetAxis("Horizontal");
+        float yAxis = Input.GetAxis("Vertical");
+        transform.Translate(0, yAxis * 10 * Time.deltaTime, 0);
+        transform.Rotate(0, 0, -xAxis);
     }
 
 
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Debug.Log("working");
-        if (other.tag == "SpeedBoost")
+        if (other.tag == "Package" && CanLoadPackage())
         {
-            Debug.Log("Speed Boosted");
-            moveSpeed = +boostSpeed;
-            Debug.Log(moveSpeed);
 
+            Destroy(other.gameObject, 1);
+            spriteRenderer.color = hasPackageColor;
+            packageAmount++;
+        }
+        else if (other.tag == "Customer" && CanOffLoadPackage())
+        {
+            packageAmount--;
+            Debug.Log("Package Delivered");
+            if (!CanOffLoadPackage())
+                spriteRenderer.color = deliveredPackageColor;
         }
 
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if ((moveSpeed - slowSpeed) <= 0) return;
-        moveSpeed -= slowSpeed;
+
         damageCar(10);
+        Deccelerate(moveSpeed / 2);
     }
 
+    bool CanLoadPackage()
+    {
+        return (packageAmount < packageCapacity);
+    }
+    bool CanOffLoadPackage()
+    {
+        return (packageAmount > 0);
+    }
+
+    public void Accelerate()
+    {
+        if (moveSpeed < 5000)
+        {
+            moveSpeed += 300;
+        }
+    }
+    public void Deccelerate(float amount)
+    {
+        // if ((moveSpeed - amount) > -500)
+        // {
+        moveSpeed -= amount;
+        // print("break" + moveSpeed);
+        // }
+        // else
+        // {
+        //     moveSpeed = 0;
+        //     print("stop");
+        // }
+    }
     public void damageCar(float amount)
     {
         carHealth -= amount;
