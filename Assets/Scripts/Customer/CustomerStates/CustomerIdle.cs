@@ -9,6 +9,7 @@ public class CustomerIdle : CustomerBaseState
     {
         controller.customerEmotion = CustomerEmotion.Nice;
         controller.packageReceived = false;
+        Debug.Log("idle state");
     }
 
     public void ExitState(CustomerAiController controller)

@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class CustomerAwaitingPackage : CustomerBaseState
 {
+
+    float maxTime;
+    float waitTime;
     public void EnterState(CustomerAiController controller)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("waiting for package");
     }
 
     public void ExitState(CustomerAiController controller)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Exit state");
     }
 
     public void UpdateState(CustomerAiController controller)
     {
-        throw new System.NotImplementedException();
+        if (waitTime >= maxTime)
+        {
+            ExitState(controller);
+        }
     }
 }

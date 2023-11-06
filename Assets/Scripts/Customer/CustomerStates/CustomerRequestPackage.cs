@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Enums;
 using UnityEngine;
 
 public class CustomerRequestPackage : CustomerBaseState
@@ -8,7 +9,8 @@ public class CustomerRequestPackage : CustomerBaseState
     public void EnterState(CustomerAiController controller)
     {
         waitTimer = 0;
-        
+        controller.CreatePakage();
+        Debug.Log("request state");
     }
 
     public void ExitState(CustomerAiController controller)
@@ -20,7 +22,7 @@ public class CustomerRequestPackage : CustomerBaseState
     {
         if (controller.orderReceived)
         {
-
+            ExitState(controller);
         }
 
     }

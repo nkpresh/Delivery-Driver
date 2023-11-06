@@ -28,7 +28,6 @@ public class CustomerAiController : MonoBehaviour
     void Start()
     {
         init();
-
     }
 
     void Update()
@@ -36,6 +35,11 @@ public class CustomerAiController : MonoBehaviour
         if (currentCustomerState != null)
         {
             currentCustomerState.UpdateState(this);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            RequestPackage();
         }
     }
     void init()
@@ -48,20 +52,19 @@ public class CustomerAiController : MonoBehaviour
         customerName = "Bob Marley";
 
         EnterState(idleState);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            RequestPackage();
-        }
     }
 
     void RequestPackage()
     {
-        EnterState(receivePackageState);
+        EnterState(requestPackageState);
     }
     public void WaitForOrder()
     {
         EnterState(waitingPackageState);
+    }
+    public void ReturnToIdleState()
+    {
+        EnterState(idleState);
     }
     public void EnterState(CustomerBaseState nextState)
     {
@@ -71,7 +74,7 @@ public class CustomerAiController : MonoBehaviour
     }
     public void CreatePakage()
     {
-        GameObject package = Instantiate(packagePrefab, null, spawningPoint);
+        GameObject package = Instantiate(packagePrefab, spawningPoint);
         package.GetComponent<Package>().SetupPackage(PackageType.NonPerrishable);
     }
 }

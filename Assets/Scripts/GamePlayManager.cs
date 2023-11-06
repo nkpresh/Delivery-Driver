@@ -15,8 +15,19 @@ public class GamePlayManager : MonoBehaviour
 
     }
 
-    public void placeOrder()
+    public void OnPackageOrder(Package package)
     {
+        print("tell player that package order has been created");
+        customer.ReturnToIdleState();
+    }
 
+    public void CancelPackageOrder(Package package)
+    {
+        customer.ReturnToIdleState();
+    }
+
+    public void AcceptPackageOrder(Package package)
+    {
+        customer.WaitForOrder();
     }
 }
