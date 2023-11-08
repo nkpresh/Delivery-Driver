@@ -12,7 +12,8 @@ public class CustomerAiController : MonoBehaviour
     [SerializeField]
     Transform spawningPoint;
     string customerName;
-    public CustomerEmotion customerEmotion;
+    public float waitTime;
+    // public CustomerEmotion customerEmotion;
     public bool packageReceived;
     Package package;
     public bool orderReceived;
@@ -20,10 +21,8 @@ public class CustomerAiController : MonoBehaviour
     CustomerIdle idleState;
     CustomerReceivePackage receivePackageState;
     CustomerRequestPackage requestPackageState;
-    CustomerReturnPackage returnPackageState;
     CustomerAwaitingPackage waitingPackageState;
 
-    public TextMeshProUGUI customerStateText;
 
     void Start()
     {
@@ -47,7 +46,6 @@ public class CustomerAiController : MonoBehaviour
         idleState = new CustomerIdle();
         receivePackageState = new CustomerReceivePackage();
         requestPackageState = new CustomerRequestPackage();
-        returnPackageState = new CustomerReturnPackage();
 
         customerName = "Bob Marley";
 
@@ -62,7 +60,7 @@ public class CustomerAiController : MonoBehaviour
     {
         EnterState(waitingPackageState);
     }
-    public void ReturnToIdleState()
+    public void EnterIdleState()
     {
         EnterState(idleState);
     }
@@ -70,11 +68,12 @@ public class CustomerAiController : MonoBehaviour
     {
         currentCustomerState = nextState;
         nextState.EnterState(this);
-        customerStateText.text = nextState.GetType().ToString();
+        // customerStateText.text = nextState.GetType().ToString();
     }
-    public void CreatePakage()
+    public Package CreatePakage()
     {
         GameObject package = Instantiate(packagePrefab, spawningPoint);
-        package.GetComponent<Package>().SetupPackage(PackageType.NonPerrishable);
+        package.GetComponent<Package>().SetupPackage(PackageType.Clothe, customerName);
+        return package.GetComponent<Package>();
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class CustomerAwaitingPackage : CustomerBaseState
 {
 
-    float maxTime;
     float waitTime;
     public void EnterState(CustomerAiController controller)
     {
@@ -14,14 +13,23 @@ public class CustomerAwaitingPackage : CustomerBaseState
 
     public void ExitState(CustomerAiController controller)
     {
-        Debug.Log("Exit state");
+        if (controller.packageReceived){
+            controller.EnterIdleState();
+        }else{
+            
+        }
     }
 
     public void UpdateState(CustomerAiController controller)
     {
-        if (waitTime >= maxTime)
+        if (waitTime >= controller.waitTime)
         {
+            waitTime = 0;
             ExitState(controller);
+        }
+        else
+        {
+            waitTime += Time.deltaTime;
         }
     }
 }

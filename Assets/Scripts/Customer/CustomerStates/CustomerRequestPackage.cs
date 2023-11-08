@@ -9,13 +9,8 @@ public class CustomerRequestPackage : CustomerBaseState
     public void EnterState(CustomerAiController controller)
     {
         waitTimer = 0;
-        controller.CreatePakage();
-        Debug.Log("request state");
-    }
-
-    public void ExitState(CustomerAiController controller)
-    {
-        controller.WaitForOrder();
+        Package package = controller.CreatePakage();
+        GamePlayManager.instance.OnPackageOrder(package);
     }
 
     public void UpdateState(CustomerAiController controller)
@@ -25,5 +20,10 @@ public class CustomerRequestPackage : CustomerBaseState
             ExitState(controller);
         }
 
+    }
+
+    public void ExitState(CustomerAiController controller)
+    {
+        controller.WaitForOrder();
     }
 }

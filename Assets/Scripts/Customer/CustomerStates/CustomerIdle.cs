@@ -7,7 +7,7 @@ public class CustomerIdle : CustomerBaseState
 {
     public void EnterState(CustomerAiController controller)
     {
-        controller.customerEmotion = CustomerEmotion.Nice;
+        // controller.customerEmotion = CustomerEmotion.Nice;
         controller.packageReceived = false;
         Debug.Log("idle state");
     }

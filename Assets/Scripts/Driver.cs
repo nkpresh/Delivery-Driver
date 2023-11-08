@@ -14,6 +14,8 @@ public class Driver : MonoBehaviour
     [SerializeField]
     SpriteRenderer spriteRenderer;
 
+
+
     // bool packagePickedup = false;
     float steerSpeed = 1;
     [SerializeField]
@@ -99,5 +101,15 @@ public class Driver : MonoBehaviour
     public void damageCar(float amount)
     {
         carHealth -= amount;
+    }
+
+    public void receivePackage(Package package)
+    {
+
+    }
+
+    public void deliverPackage(CustomerAiController customer)
+    {
+
     }
 }

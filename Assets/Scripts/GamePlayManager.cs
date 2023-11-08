@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GamePlayManager : MonoBehaviour
@@ -5,10 +6,13 @@ public class GamePlayManager : MonoBehaviour
     [SerializeField]
     CustomerAiController customer;
 
+    List<Package> packages;
+    List<Package> deliveredPackages;
     public static GamePlayManager instance;
     private void Start()
     {
         instance = this;
+        packages = new List<Package>();
     }
     private void Update()
     {
@@ -17,13 +21,15 @@ public class GamePlayManager : MonoBehaviour
 
     public void OnPackageOrder(Package package)
     {
-        print("tell player that package order has been created");
-        customer.ReturnToIdleState();
+        UiManager.instance.CreateNotification(package.customerName, "Store");
+        // print("tell player that package order has been created");
+        // customer.EnterIdleState();
+
     }
 
     public void CancelPackageOrder(Package package)
     {
-        customer.ReturnToIdleState();
+        customer.EnterIdleState();
     }
 
     public void AcceptPackageOrder(Package package)

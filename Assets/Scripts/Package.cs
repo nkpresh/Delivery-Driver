@@ -3,14 +3,18 @@ using UnityEngine;
 
 public class Package : MonoBehaviour
 {
-    PackageType packageType;
-    Sprite packageImage;
+    public PackageType packageType;
+    // Sprite packageImage;
+    // bool completed;
 
+    public string customerName;
 
-    public void SetupPackage(PackageType packageType)
+    public void SetupPackage(PackageType packageType, string customerName)
     {
         this.packageType = packageType;
+        this.customerName = customerName;
     }
+
 
 
 }

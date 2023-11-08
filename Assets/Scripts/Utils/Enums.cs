@@ -11,7 +11,16 @@ namespace Enums
 
     public enum PackageType
     {
-        Perrishable,
-        NonPerrishable
+        Food,
+        Clothe,
+        Parcel
+    }
+
+    public enum OrderLocations
+    {
+        shop,
+        postOffice,
+        restaurant,
+        boutique,
     }
 }
