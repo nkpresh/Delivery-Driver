@@ -8,9 +8,8 @@ public class CustomerRequestPackage : CustomerBaseState
     float waitTimer = 0;
     public void EnterState(CustomerAiController controller)
     {
-        waitTimer = 0;
-        Package package = controller.CreatePakage();
-        GamePlayManager.instance.OnPackageOrder(package);
+        // waitTimer = 0;
+        controller.CreatePakageOrder();
     }
 
     public void UpdateState(CustomerAiController controller)

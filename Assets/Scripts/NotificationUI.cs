@@ -8,18 +8,12 @@ public class NotificationUI : MonoBehaviour
 {
     [SerializeField]
     TextMeshProUGUI descriptionText;
-    public bool isActive;
     CanvasGroup transparancy;
     float waitTime = 5;
-    void Start()
+    void OnEnable()
     {
         transparancy = GetComponent<CanvasGroup>();
     }
-    private void OnEnable()
-    {
-        isActive = true;
-    }
-
     void Update()
     {
 
@@ -29,7 +23,6 @@ public class NotificationUI : MonoBehaviour
             if (transparancy.alpha <= 0)
             {
                 gameObject.SetActive(false);
-                isActive = false;
             }
         }
         else
@@ -40,6 +33,18 @@ public class NotificationUI : MonoBehaviour
     }
     public void UpdateNotificationPanel(string data)
     {
+        transparancy.alpha = 1;
         descriptionText.text = data;
+        waitTime = 5;
+        gameObject.SetActive(true);
+    }
+
+    public void OnSelectOrder()
+    {
+        
+    }
+    public void OnCancelOrder()
+    {
+
     }
 }

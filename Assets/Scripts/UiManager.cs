@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UiManager : MonoBehaviour
@@ -11,13 +12,17 @@ public class UiManager : MonoBehaviour
 
     [SerializeField]
     Transform notificationContainer;
+    List<NotificationUI> notificationUIs;
+
+    [SerializeField]
+    TextMeshProUGUI packageAmountText;
     private void Awake()
     {
         instance = this;
     }
     void Start()
     {
-
+        notificationUIs = new List<NotificationUI>();
     }
 
     void Update()
@@ -27,7 +32,13 @@ public class UiManager : MonoBehaviour
 
     public void CreateNotification(string customerName, string orderLocation)
     {
-        GameObject notificationUI = Instantiate(notificationPrefab, notificationContainer);
-        notificationUI.GetComponent<NotificationUI>().UpdateNotificationPanel(customerName + " made an order at the " + orderLocation);
+        NotificationUI notificationPanel = notificationUIs.Find(x => x.gameObject.activeSelf == false);
+        print(notificationPanel);
+        if (notificationPanel == null)
+        {
+            notificationPanel = Instantiate(notificationPrefab, notificationContainer).GetComponent<NotificationUI>();
+            notificationUIs.Add(notificationPanel);
+        }
+        notificationPanel.UpdateNotificationPanel(customerName + " made an order at the " + orderLocation);
     }
 }
