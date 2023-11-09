@@ -70,11 +70,11 @@ public class CustomerAiController : MonoBehaviour
         nextState.EnterState(this);
         // customerStateText.text = nextState.GetType().ToString();
     }
-    public Package CreatePakageOrder()
+    public void CreatePakageOrder()
     {
-        GameObject package = Instantiate(packagePrefab, spawningPoint);
-        package.GetComponent<Package>().SetupPackage(PackageType.Clothe, customerName);
-        return package.GetComponent<Package>();
+        Package package = Instantiate(packagePrefab, spawningPoint).GetComponent<Package>();
+        package.SetupPackage(PackageType.Clothe, customerName, "Store");
+        GamePlayManager.instance.CreatePackageOrder(package);
     }
 
 

@@ -8,7 +8,6 @@ public class CustomerRequestPackage : CustomerBaseState
     float waitTimer = 0;
     public void EnterState(CustomerAiController controller)
     {
-        // waitTimer = 0;
         controller.CreatePakageOrder();
     }
 

@@ -16,6 +16,14 @@ namespace Enums
         Parcel
     }
 
+    public enum PackageState
+    {
+        UnAssigned,
+        Selected,
+        Ongoing,
+        Delivered
+    }
+
     public enum OrderLocations
     {
         shop,

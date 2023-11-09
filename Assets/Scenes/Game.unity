@@ -370,6 +370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   customer: {fileID: 0}
+  driver: {fileID: 0}
 --- !u!1 &175789334
 GameObject:
   m_ObjectHideFlags: 0
@@ -5627,7 +5628,7 @@ GameObject:
   - component: {fileID: 1791173212}
   - component: {fileID: 1791173211}
   m_Layer: 5
-  m_Name: Image
+  m_Name: PackageUi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7297,7 +7298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notificationPrefab: {fileID: 5172655465796373723, guid: 5da80c13fb5f9f54792245e53ce10259, type: 3}
   notificationContainer: {fileID: 1755445672}
-  packageAmountText: {fileID: 0}
+  packageAmountText: {fileID: 1023412635}
 --- !u!222 &1293851088359328764
 CanvasRenderer:
   m_ObjectHideFlags: 0

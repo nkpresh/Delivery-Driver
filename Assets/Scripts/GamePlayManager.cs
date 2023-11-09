@@ -1,36 +1,41 @@
 using System.Collections.Generic;
+using Enums;
 using UnityEngine;
+using UnityEngine.U2D.IK;
 
 public class GamePlayManager : MonoBehaviour
 {
     [SerializeField]
     CustomerAiController customer;
+    [SerializeField]
+    Driver driver;
+
 
     List<Package> packages;
-    List<Package> deliveredPackages;
     public static GamePlayManager instance;
     private void Start()
     {
         instance = this;
         packages = new List<Package>();
     }
-    private void Update()
+    public void CreatePackageOrder(Package package)
+    {
+        packages.Add(package);
+        UiManager.instance.CreateNotification(package.customerName, package.packageLocation, packages.Count - 1);
+    }
+
+    public void AssignPackage(int index)
+    {
+        var currentPackage = packages[index];
+        if (currentPackage.packageState == PackageState.UnAssigned)
+        {
+            currentPackage.packageState = PackageState.Selected;
+            UiManager.instance.AssignPackageValue(packages.Count);
+        }
+    }
+    public void CancelPackage(int index)
     {
 
     }
 
-    // public void OnPackageOrder(Package package)
-    // {
-    //     UiManager.instance.CreateNotification(package.customerName, "Store");
-    // }
-
-    // public void CancelPackageOrder(Package package)
-    // {
-    //     customer.EnterIdleState();
-    // }
-
-    // public void AcceptPackageOrder(Package package)
-    // {
-    //     customer.WaitForOrder();
-    // }
 }

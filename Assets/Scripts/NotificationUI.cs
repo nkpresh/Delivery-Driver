@@ -9,6 +9,9 @@ public class NotificationUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI descriptionText;
     CanvasGroup transparancy;
+    bool canClosePanel;
+
+    int index;
     float waitTime = 5;
     void OnEnable()
     {
@@ -19,31 +22,44 @@ public class NotificationUI : MonoBehaviour
 
         if (waitTime <= 0)
         {
-            transparancy.alpha -= Time.deltaTime;
-            if (transparancy.alpha <= 0)
-            {
-                gameObject.SetActive(false);
-            }
+            canClosePanel = true;
         }
         else
         {
             waitTime -= Time.deltaTime;
         }
 
+        if (canClosePanel)
+        {
+            transparancy.alpha -= Time.deltaTime;
+            if (transparancy.alpha <= 0)
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
-    public void UpdateNotificationPanel(string data)
+    public void UpdateNotificationPanel(string data, int index)
     {
+        canClosePanel = false;
         transparancy.alpha = 1;
         descriptionText.text = data;
         waitTime = 5;
         gameObject.SetActive(true);
+        this.index = index;
     }
 
     public void OnSelectOrder()
     {
-        
+        GamePlayManager.instance.AssignPackage(index);
+        canClosePanel = true;
     }
     public void OnCancelOrder()
+    {
+        GamePlayManager.instance.CancelPackage(index);
+        canClosePanel = true;
+    }
+
+    void ClosePanel()
     {
 
     }
