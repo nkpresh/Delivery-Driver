@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Enums;
 using UnityEngine;
 using UnityEngine.U2D.IK;
@@ -6,7 +7,7 @@ using UnityEngine.U2D.IK;
 public class GamePlayManager : MonoBehaviour
 {
     [SerializeField]
-    CustomerAiController customer;
+    List<CustomerAiController> customer;
     [SerializeField]
     Driver driver;
 
@@ -21,21 +22,20 @@ public class GamePlayManager : MonoBehaviour
     public void CreatePackageOrder(Package package)
     {
         packages.Add(package);
-        UiManager.instance.CreateNotification(package.customerName, package.packageLocation, packages.Count - 1);
+        UiManager.instance.CreateNotification(package.customerName, package.packageLocation.ToString(), packages.Count - 1);
     }
-
-    public void AssignPackage(int index)
+    public void UpdatePackageData()
     {
-        var currentPackage = packages[index];
-        if (currentPackage.packageState == PackageState.UnAssigned)
-        {
-            currentPackage.packageState = PackageState.Selected;
-            UiManager.instance.AssignPackageValue(packages.Count);
-        }
+        UiManager.instance.AssignPackageValue(GetSelectedPackages().Count);
+
     }
-    public void CancelPackage(int index)
+
+    public List<Package> GetSelectedPackages()
     {
-
+        return packages.FindAll(x => x.packageState == PackageState.Pickedup);
     }
-
+    public bool CheckCustomerPackages(string customerName)
+    {
+        return packages.Any(x => x.customerName == customerName && x.packageState != PackageState.Delivered);
+    }
 }

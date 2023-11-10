@@ -25,7 +25,6 @@ public class Driver : MonoBehaviour
     float carNitro = 0;
 
     public int packageCapacity;
-    int packageAmount = 0;
     void Start()
     {
         // print(moveSpeed);
@@ -46,21 +45,34 @@ public class Driver : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Package" && CanLoadPackage())
-        {
 
-            Destroy(other.gameObject, 1);
-            spriteRenderer.color = hasPackageColor;
-            packageAmount++;
-        }
-        else if (other.tag == "Customer" && CanOffLoadPackage())
+        if (other.tag == "Package")
         {
-            packageAmount--;
-            Debug.Log("Package Delivered");
-            if (!CanOffLoadPackage())
-                spriteRenderer.color = deliveredPackageColor;
+            if (GamePlayManager.instance.GetSelectedPackages().Count < packageCapacity)
+            {
+                if (other.GetComponent<Package>() != null)
+                {
+                    other.GetComponent<Package>().PickupPackage(this.transform);
+                    other.transform.parent = this.transform;
+                    spriteRenderer.color = hasPackageColor;
+                }
+            }
         }
-
+        else if (other.tag == "Customer")
+        {
+            if (GamePlayManager.instance.GetSelectedPackages().Count > 0)
+            {
+                if (other.GetComponent<CustomerAiController>() != null)
+                {
+                    print("working fine");
+                    CustomerAiController customer = other.GetComponent<CustomerAiController>();
+                    customer.OnPackageRecieved();
+                    // other.transform.parent = this.transform;
+                    spriteRenderer.color = deliveredPackageColor;
+                }
+            }
+        }
+        GamePlayManager.instance.UpdatePackageData();
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -69,14 +81,6 @@ public class Driver : MonoBehaviour
         Deccelerate(moveSpeed / 2);
     }
 
-    bool CanLoadPackage()
-    {
-        return (packageAmount < packageCapacity);
-    }
-    bool CanOffLoadPackage()
-    {
-        return (packageAmount > 0);
-    }
 
     public void Accelerate()
     {

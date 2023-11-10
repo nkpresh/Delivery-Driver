@@ -47,20 +47,8 @@ public class NotificationUI : MonoBehaviour
         gameObject.SetActive(true);
         this.index = index;
     }
-
-    public void OnSelectOrder()
-    {
-        GamePlayManager.instance.AssignPackage(index);
-        canClosePanel = true;
-    }
     public void OnCancelOrder()
     {
-        GamePlayManager.instance.CancelPackage(index);
         canClosePanel = true;
-    }
-
-    void ClosePanel()
-    {
-
     }
 }

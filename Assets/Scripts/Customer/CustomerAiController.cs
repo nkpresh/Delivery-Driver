@@ -72,10 +72,21 @@ public class CustomerAiController : MonoBehaviour
     }
     public void CreatePakageOrder()
     {
+        if (GamePlayManager.instance.CheckCustomerPackages(customerName)) return;
         Package package = Instantiate(packagePrefab, spawningPoint).GetComponent<Package>();
-        package.SetupPackage(PackageType.Clothe, customerName, "Store");
+        package.SetupPackage(PackageType.Clothe, customerName, OrderLocations.shop);
         GamePlayManager.instance.CreatePackageOrder(package);
     }
 
+    public void OnPackageRecieved()
+    {
+        Package package = GamePlayManager.instance.GetSelectedPackages()
+        .Find(x => x.customerName == customerName);
+        if (package != null)
+        {
+            package.OnPackageDelivered(this.transform);
+            EnterState(receivePackageState);
+        }
+    }
 
 }

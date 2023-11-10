@@ -6,7 +6,7 @@ public class CustomerReceivePackage : CustomerBaseState
 {
     public void EnterState(CustomerAiController controller)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void ExitState(CustomerAiController controller)
@@ -16,6 +16,6 @@ public class CustomerReceivePackage : CustomerBaseState
 
     public void UpdateState(CustomerAiController controller)
     {
-        throw new System.NotImplementedException();
+        
     }
 }

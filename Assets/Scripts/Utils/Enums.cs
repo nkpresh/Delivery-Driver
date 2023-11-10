@@ -18,10 +18,9 @@ namespace Enums
 
     public enum PackageState
     {
-        UnAssigned,
-        Selected,
-        Ongoing,
-        Delivered
+        Instation,
+        Pickedup,
+        Delivered,
     }
 
     public enum OrderLocations
