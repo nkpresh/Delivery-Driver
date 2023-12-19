@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
@@ -16,6 +18,12 @@ public class UiManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI packageAmountText;
+
+    [SerializeField]
+    Slider carHealthProgress;
+    [SerializeField]
+    TextMeshProUGUI timerUi;
+
     private void Awake()
     {
         instance = this;
@@ -23,11 +31,6 @@ public class UiManager : MonoBehaviour
     void Start()
     {
         notificationUIs = new List<NotificationUI>();
-    }
-
-    void Update()
-    {
-
     }
 
     public void CreateNotification(string customerName, string orderLocation, int packageIndex)
@@ -41,12 +44,23 @@ public class UiManager : MonoBehaviour
         notificationPanel.UpdateNotificationPanel(customerName + " made an order at the " + orderLocation, packageIndex);
     }
 
-    public void DestroyNotification()
-    {
-
-    }
     public void AssignPackageValue(float amount)
     {
         packageAmountText.text = amount.ToString();
+    }
+
+    internal void UpdateCarHealthProgress(float amount)
+    {
+        carHealthProgress.value = amount;
+    }
+
+    internal void UpdateTimerUi(float timeInMinutes, float timeInSeconds)
+    {
+        timerUi.text = timeInMinutes + " : " + timeInSeconds;
+    }
+
+    public void PauseGame()
+    {
+        GamePlayManager.instance.PauseGame();
     }
 }

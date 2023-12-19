@@ -30,4 +30,10 @@ namespace Enums
         restaurant,
         boutique,
     }
+
+    public enum GameOverResult
+    {
+        Victory,
+        Defeat
+    }
 }

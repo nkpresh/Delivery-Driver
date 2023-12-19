@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enums;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Driver : MonoBehaviour
@@ -11,36 +14,32 @@ public class Driver : MonoBehaviour
     [SerializeField]
     float destroyTime;
 
+    // [SerializeField]
+    // SpriteRenderer spriteRenderer;
     [SerializeField]
-    SpriteRenderer spriteRenderer;
-
-
-
-    // bool packagePickedup = false;
     float steerSpeed = 1;
     [SerializeField]
     float moveSpeed = 0.01f;
-
     float carHealth = 100f;
+    float maxCarHealth = 100F;
     float carNitro = 0;
 
     public int packageCapacity;
     void Start()
     {
-        // print(moveSpeed);
+        updateCarHealthUi();
     }
 
     void Update()
     {
-        // if (moveSpeed != 0)
-        //     GetComponent<Rigidbody2D>().velocity = Vector2.up * moveSpeed * Time.deltaTime;
-
-        float xAxis = Input.GetAxis("Horizontal");
-        float yAxis = Input.GetAxis("Vertical");
-        transform.Translate(0, yAxis * 10 * Time.deltaTime, 0);
-        transform.Rotate(0, 0, -xAxis);
+        // print(moveSpeed);
+        // float yAxis = Input.GetAxis("Vertical");
+        // transform.Translate(0, yAxis * 10 * Time.deltaTime, 0);
     }
-
+    private void FixedUpdate()
+    {
+        Move();
+    }
 
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -54,7 +53,7 @@ public class Driver : MonoBehaviour
                 {
                     other.GetComponent<Package>().PickupPackage(this.transform);
                     other.transform.parent = this.transform;
-                    spriteRenderer.color = hasPackageColor;
+                    // spriteRenderer.color = hasPackageColor;
                 }
             }
         }
@@ -68,7 +67,7 @@ public class Driver : MonoBehaviour
                     CustomerAiController customer = other.GetComponent<CustomerAiController>();
                     customer.OnPackageRecieved();
                     // other.transform.parent = this.transform;
-                    spriteRenderer.color = deliveredPackageColor;
+                    // spriteRenderer.color = deliveredPackageColor;
                 }
             }
         }
@@ -77,42 +76,71 @@ public class Driver : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
 
-        damageCar(10);
-        Deccelerate(moveSpeed / 2);
+        damageCar(moveSpeed / 3);
+        Deccelerate(moveSpeed + 3);
     }
 
-
-    public void Accelerate()
+    public void OnAccelerateButton()
     {
-        if (moveSpeed < 5000)
+        Accelerate(5F);
+    }
+
+    public void OnDeccelerateButon()
+    {
+        Deccelerate(1F);
+    }
+    public void Accelerate(float amount)
+    {
+        if (moveSpeed < 30)
         {
-            moveSpeed += 300;
+            moveSpeed += amount;
         }
     }
     public void Deccelerate(float amount)
     {
-        // if ((moveSpeed - amount) > -500)
-        // {
-        moveSpeed -= amount;
-        // print("break" + moveSpeed);
-        // }
-        // else
-        // {
-        //     moveSpeed = 0;
-        //     print("stop");
-        // }
+        if (moveSpeed > -20)
+        {
+            moveSpeed -= amount;
+        }
     }
+
     public void damageCar(float amount)
     {
-        carHealth -= amount;
+        print(moveSpeed);
+        if (moveSpeed > 15)
+            carHealth -= amount;
+        if (carHealth <= 0)
+        {
+            GamePlayManager.instance.OnGameOver(GameOverResult.Defeat);
+        }
+        updateCarHealthUi();
     }
-
-    public void receivePackage(Package package)
+    void Move()
     {
+        float Ydir = Input.GetAxis("Vertical");
+        if (Ydir != 0)
+        {
+            moveSpeed += Ydir;
+            moveSpeed = Mathf.Clamp(moveSpeed, -30, 30);
+        }
+        else
+        {
+            moveSpeed = Mathf.Lerp(moveSpeed, 0, 1.5f * Time.deltaTime);
+        }
+
+        float moveY = moveSpeed * Time.deltaTime;
+        transform.Translate(0, moveY, 0);
+
+        float xAxis = Input.GetAxis("Horizontal") * steerSpeed * Time.deltaTime;
+        transform.Rotate(0, 0, -xAxis);
 
     }
-
-    public void deliverPackage(CustomerAiController customer)
+    void updateCarHealthUi()
+    {
+        float healthValue = carHealth / maxCarHealth;
+        UiManager.instance.UpdateCarHealthProgress(healthValue);
+    }
+    public void BoostNitro()
     {
 
     }
